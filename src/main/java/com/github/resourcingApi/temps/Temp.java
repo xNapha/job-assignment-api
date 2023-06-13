@@ -1,5 +1,7 @@
 package com.github.resourcingApi.temps;
 
+import java.util.Set;
+
 import com.github.resourcingApi.jobs.Job;
 
 import jakarta.persistence.Column;
@@ -7,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,15 +17,28 @@ import jakarta.persistence.Table;
 public class Temp {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	Long id;
+	@Column(name = "temp_id")
+	private Long id;
 
 	@Column(name = "first_name")
-	String firstName;
+	private String firstName;
 
 	@Column(name = "last_name")
-	String lastName;
+	private String lastName;
 
-	@Column(name = "first_name")
-	Job[] jobs;
+	@OneToMany(mappedBy = "temp")
+	private Set<Job> job;
+
+	public Temp() {
+
+	}
+
+	public Set<Job> getJob() {
+		return job;
+	}
+
+	public void setJob(Job data) {
+		this.job.add(data);
+	}
+
 }

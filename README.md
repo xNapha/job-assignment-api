@@ -92,11 +92,20 @@ The task is to build a Resourcing API using the Java Spring Boot framework, that
 
 ## Change logs
 
-### 10/06/2023 | Project Creations
+### 10/06/2023 | Project Creation
 
----
+- Nothing too interesting happened today, just created the project and created the necessary files
 
-<!-- ## What did you struggle with? -->
+### 13/06/2023 | Creating all the basic POST and GET methods
+
+- Create a diagram of the database, even though it is simple it was still good to create a visualisation of it, [link here](https://dbdiagram.io/d/6487bd63722eb77494d83e11)
+- Watched a tutorial on how to create a OneToMany relationship in java spring, easier that I thought it would be
+- Added the less complicated methods of POST and GET for both entities
+- Read up on trying to create custom queries in the Repository files for the end points
+
+<!-- ---
+
+## What did you struggle with? -->
 
 <!-- ---
 

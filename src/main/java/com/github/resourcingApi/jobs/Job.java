@@ -9,22 +9,29 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "jobs")
 public class Job {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	Long id;
+	@Column(name = "job_id")
+	private Long id;
+
 	@Column(name = "name")
-	String name;
+	private String name;
+
 	@Column(name = "start_date")
-	Date stateDate;
+	private Date startDate;
+
 	@Column(name = "end_date")
-	Date endDate;
-	@Column(name = "temp_id")
-	Temp temp_id;
+	private Date endDate;
+
+	@ManyToOne
+	@JoinColumn(name = "temp_id")
+	private Temp temp;
+
 }
