@@ -103,9 +103,19 @@ The task is to build a Resourcing API using the Java Spring Boot framework, that
 - Added the less complicated methods of POST and GET for both entities
 - Read up on trying to create custom queries in the Repository files for the end points
 
-<!-- ---
+### 14/06/2023 | Implemented several more endpoints
 
-## What did you struggle with? -->
+- Changed the DTO's to store an Optional<Long> temp, where the body will either provide a null or a long value
+- Added the RequestBody annotation to the GET endpoint for jobs
+- Added the Patch Endpoint
+
+---
+
+## What did you struggle with?
+
+### 14/06/2023 | Optionals
+
+I spent a good hour trying to figure out how to set a null value to a primitive, to only find out that I can't do it. Realising the stupidity of what I was trying to do, I failed to use Optionals even though i was introduced to them. For some reason I was stuck thinking that Optionals should only be used in the situation where I'm trying to fetch data from the database, I failed to realise that Optionals are used when you dont know if what you will get is either a null value or not. Realising the gap in knowledge I quickly replaced some typing with Optional<{type}>. Atleast I learnt something from my mistakes, but it feels bad to have made it to begin with.
 
 <!-- ---
 

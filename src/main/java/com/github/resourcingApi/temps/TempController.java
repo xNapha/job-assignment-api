@@ -1,7 +1,6 @@
 package com.github.resourcingApi.temps;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,10 +32,9 @@ public class TempController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Temp> findById(@PathVariable Long id) {
-		Optional<Temp> maybeTemp = this.service.findById(id);
-
-		return new ResponseEntity<Temp>(Optional.of(maybeTemp.get()).orElseThrow(), HttpStatus.OK);
+	public ResponseEntity<Temp> findById(@PathVariable Long id) throws Exception {
+		Temp maybeTemp = this.service.findById(id);
+		return new ResponseEntity<Temp>(maybeTemp, HttpStatus.OK);
 	}
 
 //	@GetMapping("?jobId={jobId}")

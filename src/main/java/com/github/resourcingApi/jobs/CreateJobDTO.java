@@ -1,6 +1,7 @@
 package com.github.resourcingApi.jobs;
 
 import java.util.Date;
+import java.util.Optional;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -9,20 +10,22 @@ public class CreateJobDTO {
 	@NotBlank
 	String name;
 
-	@NotBlank
 	Date startDate;
 
-	@NotBlank
 	Date endDate;
 
-	Long temp_id;
+	Optional<Long> temp;
 
-	public CreateJobDTO(String name, Date startDate, Date endDate, Long temp_id) {
+	public CreateJobDTO() {
+
+	}
+
+	public CreateJobDTO(String name, Date startDate, Date endDate, Optional<Long> temp) {
 		super();
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.temp_id = temp_id;
+		this.temp = temp;
 	}
 
 	public String getName() {
@@ -49,12 +52,12 @@ public class CreateJobDTO {
 		this.endDate = endDate;
 	}
 
-	public Long getTemp_id() {
-		return temp_id;
+	public Optional<Long> getTemp() {
+		return temp;
 	}
 
-	public void setTemp_id(Long temp_id) {
-		this.temp_id = temp_id;
+	public void setTemp_id(Optional<Long> temp) {
+		this.temp = temp;
 	}
 
 }

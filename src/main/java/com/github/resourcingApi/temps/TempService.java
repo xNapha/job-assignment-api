@@ -1,11 +1,12 @@
 package com.github.resourcingApi.temps;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
 
@@ -27,13 +28,9 @@ public class TempService {
 		return this.repository.findAll();
 	}
 
-	public Optional<Temp> findById(Long id) {
-		Optional<Temp> maybeTemp = this.repository.findById(id);
+	public Temp findById(Long id) throws ResponseStatusException {
+		return this.repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+				String.format("Temp with ID of %s, was not found", id)));
 
-		if (maybeTemp.isPresent()) {
-			Temp temp = modelMapper.map(maybeTemp, Temp.class);
-			temp.setJob(null);
-		}
-		return null;
 	}
 }

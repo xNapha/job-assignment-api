@@ -2,6 +2,7 @@ package com.github.resourcingApi.temps;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.resourcingApi.jobs.Job;
 
 import jakarta.persistence.Column;
@@ -26,6 +27,7 @@ public class Temp {
 	@Column(name = "last_name")
 	private String lastName;
 
+	@JsonIgnoreProperties("temp")
 	@OneToMany(mappedBy = "temp")
 	private Set<Job> job;
 
@@ -33,11 +35,35 @@ public class Temp {
 
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public Set<Job> getJob() {
 		return job;
 	}
 
-	public void setJob(Job data) {
+	public void addJob(Job data) {
 		this.job.add(data);
 	}
 
