@@ -109,6 +109,10 @@ The task is to build a Resourcing API using the Java Spring Boot framework, that
 - Added the RequestBody annotation to the GET endpoint for jobs
 - Added the Patch Endpoint
 
+### 15/06/2023 | Implemeneted an Endpoint Assumption
+
+- Added the logic for the assumption, "Temps can only have one job at a time (can't be doing 2 jobs on the same date)"
+
 ---
 
 ## What did you struggle with?
@@ -116,6 +120,39 @@ The task is to build a Resourcing API using the Java Spring Boot framework, that
 ### 14/06/2023 | Optionals
 
 I spent a good hour trying to figure out how to set a null value to a primitive, to only find out that I can't do it. Realising the stupidity of what I was trying to do, I failed to use Optionals even though i was introduced to them. For some reason I was stuck thinking that Optionals should only be used in the situation where I'm trying to fetch data from the database, I failed to realise that Optionals are used when you dont know if what you will get is either a null value or not. Realising the gap in knowledge I quickly replaced some typing with Optional<{type}>. Atleast I learnt something from my mistakes, but it feels bad to have made it to begin with.
+
+### 15/06/2023 | Confusing myself with long comparations
+
+For the assumption, "Temps can only have one job at a time (can't be doing 2 jobs on the same date)". I ended up doing a long comparative line that confused me half way through, maybe i should have drew out a diagram of some sorts to help me instead of thinking of all the possible solutions.
+
+-------- Code below for reference --------
+
+```java
+public boolean checkDates(Job currentJob, Job requestedJob) {
+		Date cJStart = currentJob.getStartDate();
+		Date cJEnd = currentJob.getEndDate();
+		Date rJStart = requestedJob.getStartDate();
+		Date rJEnd = requestedJob.getEndDate();
+
+		boolean isCJStartWithinRJDate = cJStart.compareTo(rJStart) > 0 && cJStart.compareTo(rJEnd) < 0;
+
+		boolean isCJEndWithinRJDate = cJEnd.compareTo(rJStart) < 0 && cJEnd.compareTo(rJEnd) > 0;
+
+		boolean isCJStartEqualRJStart = cJStart.compareTo(rJStart) == 0;
+
+		boolean isCJEndEqualRJStart = cJEnd.compareTo(rJStart) == 0;
+
+		boolean isCJStartEqualRJEnd = cJStart.compareTo(rJEnd) == 0;
+
+		boolean isCJEndEqualRJEND = cJEnd.compareTo(rJStart) == 0;
+
+		boolean isRJDatesWithinCJDates = cJStart.compareTo(rJStart) < 0 && cJEnd.compareTo(rJEnd) > 0;
+
+		return (isCJStartWithinRJDate) || (isCJEndWithinRJDate) || (isCJStartEqualRJStart) || (isCJEndEqualRJStart)
+				|| (isCJStartEqualRJEnd) || (isCJEndEqualRJEND) || (isRJDatesWithinCJDates);
+	}
+
+```
 
 <!-- ---
 
