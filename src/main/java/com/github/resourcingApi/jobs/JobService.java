@@ -1,9 +1,9 @@
 package com.github.resourcingApi.jobs;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,40 +46,18 @@ public class JobService {
 	public Job assignTemp(Job jobRequest, Long id) {
 		Temp currentTemp = tempService.findById(id);
 		Set<Job> allAssignedJobs = currentTemp.getJob();
-		boolean anyAvailableTime = allAssignedJobs.stream().noneMatch(job -> checkDates(job, jobRequest));
+		boolean anyAvailableTime = allAssignedJobs.stream().noneMatch(job -> JobUtility.checkDates(job, jobRequest));
 
 		if (anyAvailableTime)
 			jobRequest.setTemp(currentTemp);
 		return jobRequest;
 	}
 
-	public boolean checkDates(Job currentJob, Job requestedJob) {
-		Date cJStart = currentJob.getStartDate();
-		Date cJEnd = currentJob.getEndDate();
-		Date rJStart = requestedJob.getStartDate();
-		Date rJEnd = requestedJob.getEndDate();
-
-		boolean isCJStartWithinRJDate = cJStart.compareTo(rJStart) > 0 && cJStart.compareTo(rJEnd) < 0;
-
-		boolean isCJEndWithinRJDate = cJEnd.compareTo(rJStart) < 0 && cJEnd.compareTo(rJEnd) > 0;
-
-		boolean isCJStartEqualRJStart = cJStart.compareTo(rJStart) == 0;
-
-		boolean isCJEndEqualRJStart = cJEnd.compareTo(rJStart) == 0;
-
-		boolean isCJStartEqualRJEnd = cJStart.compareTo(rJEnd) == 0;
-
-		boolean isCJEndEqualRJEND = cJEnd.compareTo(rJStart) == 0;
-
-		boolean isRJDatesWithinCJDates = cJStart.compareTo(rJStart) < 0 && cJEnd.compareTo(rJEnd) > 0;
-
-		return (isCJStartWithinRJDate) || (isCJEndWithinRJDate) || (isCJStartEqualRJStart) || (isCJEndEqualRJStart)
-				|| (isCJStartEqualRJEnd) || (isCJEndEqualRJEND) || (isRJDatesWithinCJDates);
-	}
-
 	public Job findById(Long id) throws ResponseStatusException {
-		return this.repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-				String.format("Job with ID of %s, was not found", id)));
+		return this.repository	.findById(id)
+								.orElseThrow(() -> new ResponseStatusException(	HttpStatus.NOT_FOUND,
+																				String.format(	"Job with ID of %s, was not found",
+																								id)));
 	}
 
 	public List<Job> filter(boolean isAssigned) {
@@ -95,6 +73,20 @@ public class JobService {
 		} else {
 			return assignTemp(currentJob, maybeTempId.get());
 		}
+	}
+
+	public List<Temp> findAllAvailableTemps(Long jobId) {
+		Job requestedJob = this.findById(jobId);
+		return tempService	.findAll()
+							.stream()
+							.filter(temp -> filterTemp(temp, requestedJob))
+							.collect(Collectors.toList());
+
+	}
+
+	public boolean filterTemp(Temp temp, Job requestedJob) {
+		Set<Job> allJobs = temp.getJob();
+		return allJobs.stream().noneMatch(currentJob -> JobUtility.checkDates(currentJob, requestedJob));
 	}
 
 }

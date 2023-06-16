@@ -1,6 +1,7 @@
 package com.github.resourcingApi.temps;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,13 +11,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.github.resourcingApi.jobs.JobService;
 
 @RestController
 @RequestMapping("/temps")
 public class TempController {
 	@Autowired
 	private TempService service;
+
+	@Autowired
+	private JobService jobService;
 
 	@PostMapping
 	public ResponseEntity<Temp> create(@RequestBody CreateTempDTO data) {
@@ -25,10 +32,15 @@ public class TempController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Temp>> findAll() {
-		List<Temp> allTemps = this.service.findAll();
-
+	public ResponseEntity<List<Temp>> findAll(@RequestParam Optional<Long> jobId) {
+		List<Temp> allTemps;
+		if (jobId.isEmpty()) {
+			allTemps = this.service.findAll();
+		} else {
+			allTemps = jobService.findAllAvailableTemps(jobId.get());
+		}
 		return new ResponseEntity<List<Temp>>(allTemps, HttpStatus.OK);
+
 	}
 
 	@GetMapping("/{id}")
@@ -37,8 +49,4 @@ public class TempController {
 		return new ResponseEntity<Temp>(maybeTemp, HttpStatus.OK);
 	}
 
-//	@GetMapping("?jobId={jobId}")
-//	public ResponseEntity<List<Temp>> findAllAvailableTemps(){
-//		
-//	}
 }

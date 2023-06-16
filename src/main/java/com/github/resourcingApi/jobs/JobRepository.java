@@ -11,7 +11,4 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 
 	@Query("SELECT x FROM Job x WHERE x.temp IS NOT NULL")
 	List<Job> findByJobIsNotNull();
-
-//	@Query("SELECT x FROM Job x WHERE :startDate > x.endDate OR :endDate < x.startDate")
-//	List<Temp> findAllAvailableTemps(Date startDate, Date endDate);
 }

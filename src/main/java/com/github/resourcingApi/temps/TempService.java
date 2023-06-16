@@ -29,8 +29,12 @@ public class TempService {
 	}
 
 	public Temp findById(Long id) throws ResponseStatusException {
-		return this.repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-				String.format("Temp with ID of %s, was not found", id)));
-
+		return this.repository
+				.findById(id)
+				.orElseThrow(
+						() -> new ResponseStatusException(
+								HttpStatus.NOT_FOUND,
+								String.format("Temp with ID of %s, was not found", id)));
 	}
+
 }

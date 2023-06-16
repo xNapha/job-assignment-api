@@ -44,7 +44,8 @@ The task is to build a Resourcing API using the Java Spring Boot framework, that
 - GET /jobs/{id} - (id, name, tempId, startDate, endDate)
 - POST /temps - Create a temp
 - GET /temps - List all temps
-- GET /temps?jobId={jobId} - List temps that are available for a job based on the jobs date range -GET /temps/{id} - get temp by id (should also display jobs they've been assigned to)
+- GET /temps?jobId={jobId} - List temps that are available for a job based on the jobs date range
+- GET /temps/{id} - get temp by id (should also display jobs they've been assigned to)
 
 ### Payloads
 
@@ -112,6 +113,11 @@ The task is to build a Resourcing API using the Java Spring Boot framework, that
 ### 15/06/2023 | Implemeneted an Endpoint Assumption
 
 - Added the logic for the assumption, "Temps can only have one job at a time (can't be doing 2 jobs on the same date)"
+
+### 16/06/2023 | Finishing all the Endpoints
+
+- Added the logic for "GET /temps?jobId={jobId} - List temps that are available for a job based on the jobs date range"
+- I wanted to see if I could use the Query annotion for yesterdays code as well as todays, but i felt like the code i would of have to write in SQL like syntax would have been as long and confusing as the code i wrote for java
 
 ---
 
